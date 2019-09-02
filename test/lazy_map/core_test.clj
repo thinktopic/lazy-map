@@ -178,4 +178,12 @@
          (freeze-map name))
        {:a "a"
         :b 50
-        :c "c"})))
+        :c "c"}))
+  (testing "keyIterator and valIterator"
+    (is (= false (.hasNext (.keyIterator (lazy-map {})))))
+    (is (= true  (.hasNext (.keyIterator (lazy-map {:a 1})))))
+    (is (= :a (.next (.keyIterator (lazy-map {:a 1}))))))
+  (testing "empty maps"
+    (is (empty? (keys (lazy-map {}))))
+    (is (empty? (vals (lazy-map {}))))
+    (is (= (count (lazy-map {})) 0))))

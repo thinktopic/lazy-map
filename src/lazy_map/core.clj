@@ -227,8 +227,8 @@
   clojure.lang.IMapIterable
   (keyIterator [this]
     (.iterator
-      ^java.lang.Iterable
-      (keys contents)))
+     ^java.lang.Iterable
+     (or (keys contents) '())))
   (valIterator [this]
     (.iterator
       ;; Using the higher-arity form of map prevents chunking.
@@ -262,10 +262,10 @@
   clojure.lang.Seqable
   (seq [this]
     ;; Using the higher-arity form of map prevents chunking.
-    (map (fn [[k v] _]
-           (lazy-map-entry k v))
-         contents
-         (repeat nil)))
+    (seq (map (fn [[k v] _]
+                (lazy-map-entry k v))
+              contents
+              (repeat nil))))
 
   java.lang.Iterable
   (iterator [this]
